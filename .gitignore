@@ -1,0 +1,10 @@
+# Hasil build
+android/build/
+android/.gradle/
+android/app/build/
+dist/
+*.apk
+local.properties
+
+# Berkas sistem
+.DS_Store

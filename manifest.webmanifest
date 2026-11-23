@@ -1,0 +1,33 @@
+{
+  "name": "Satu Hari — Jurnal Foto & Kalimat",
+  "short_name": "Satu Hari",
+  "description": "Jurnal harian super minim friksi: satu foto dan satu kalimat setiap hari. Tanpa akun, tanpa server.",
+  "lang": "id",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5F0E6",
+  "theme_color": "#F5F0E6",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

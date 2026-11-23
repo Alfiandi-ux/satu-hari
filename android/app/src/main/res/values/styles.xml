@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="icon_bg">#221e18</color>
+    <color name="window_bg">#f5f0e6</color>
+
+    <style name="Theme.SatuHari" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_bg</item>
+        <item name="android:statusBarColor">@color/window_bg</item>
+        <item name="android:navigationBarColor">@color/window_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:colorAccent">#e2764c</item>
+    </style>
+</resources>

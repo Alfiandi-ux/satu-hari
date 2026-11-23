@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Aset web (PWA) berada di akar repositori dan disalin ke assets/www saat build.
+def webRoot = rootProject.projectDir.parentFile
+def stageRoot = layout.buildDirectory.dir("staged-assets")
+
+tasks.register("stageWeb", Copy) {
+    from(webRoot) {
+        include "index.html"
+        include "style.css"
+        include "app.js"
+        include "sw.js"
+        include "manifest.webmanifest"
+        include "icons/**"
+    }
+    into stageRoot.map { it.dir("www") }
+}
+
+android {
+    namespace "id.satuhari.app"
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "id.satuhari.app"
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../release.keystore")
+            storePassword "satuhari"
+            keyAlias "satuhari"
+            keyPassword "satuhari"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    sourceSets {
+        main {
+            assets.srcDirs += [stageRoot.get().asFile]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        abortOnError false
+    }
+}
+
+tasks.named("preBuild").configure { dependsOn("stageWeb") }
