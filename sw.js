@@ -1,5 +1,5 @@
 /* Service worker: app shell tetap bisa dibuka tanpa internet. */
-const CACHE = 'satu-hari-v2';
+const CACHE = 'satu-hari-v3';
 const ASSETS = [
   './',
   './index.html',

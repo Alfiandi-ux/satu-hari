@@ -12,6 +12,7 @@ Jurnal visual harian yang sengaja dibuat sesederhana mungkin: **satu foto, satu 
 - **Bagikan** — membuat kartu gambar 1080×1350 (foto + kalimat + tanggal) untuk dibagikan atau diunduh.
 - **Cadangan** — ekspor/impor seluruh data (termasuk foto) sebagai satu file JSON.
 - **Tema** — sistem, terang, atau gelap.
+- **Kualitas foto** — biasa (hemat ruang, maks 1280 px) atau tinggi (detail tajam, maks 2400 px).
 - **PWA offline** — bisa dipasang ke layar utama dan tetap terbuka tanpa internet.
 
 ## Menjalankan di Termux

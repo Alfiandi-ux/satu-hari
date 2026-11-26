@@ -220,7 +220,12 @@
     const sh = bitmap.height || bitmap.naturalHeight;
     if (!sw || !sh) throw new Error('Foto tidak bisa dibaca');
 
-    const scale = Math.min(1, 1600 / Math.max(sw, sh));
+    const qualityPref = readPhotoQualityPref();
+    const isHigh = qualityPref === 'high';
+    const maxDimension = isHigh ? 2400 : 1280;
+    const jpegQuality = isHigh ? 0.92 : 0.82;
+
+    const scale = Math.min(1, maxDimension / Math.max(sw, sh));
     const fw = Math.max(1, Math.round(sw * scale));
     const fh = Math.max(1, Math.round(sh * scale));
 
@@ -248,7 +253,7 @@
     tctx.imageSmoothingQuality = 'high';
     tctx.drawImage(bitmap, sx, sy, side, side, 0, 0, thumbSize, thumbSize);
 
-    const blob = await toBlob(full, 'image/jpeg', 0.86);
+    const blob = await toBlob(full, 'image/jpeg', jpegQuality);
     const thumb = thumbCanvas.toDataURL('image/jpeg', 0.76);
 
     if (typeof bitmap.close === 'function') {
@@ -289,6 +294,33 @@
   function setThemePref(pref) {
     try { localStorage.setItem(THEME_KEY, pref); } catch (_) {}
     applyTheme();
+  }
+
+  /* ------------------------------ kualitas foto ------------------------------ */
+
+  const PHOTO_QUALITY_KEY = 'satu-hari-photo-quality';
+
+  function readPhotoQualityPref() {
+    try {
+      const v = localStorage.getItem(PHOTO_QUALITY_KEY);
+      return v === 'high' ? 'high' : 'standard';
+    } catch (_) {
+      return 'standard';
+    }
+  }
+
+  function applyPhotoQualityUI() {
+    const pref = readPhotoQualityPref();
+    $$('[data-quality-pref]').forEach((b) => {
+      b.setAttribute('aria-pressed', String(b.dataset.qualityPref === pref));
+    });
+  }
+
+  function setPhotoQualityPref(pref) {
+    try {
+      localStorage.setItem(PHOTO_QUALITY_KEY, pref === 'high' ? 'high' : 'standard');
+    } catch (_) { /* diabaikan */ }
+    applyPhotoQualityUI();
   }
 
   /* ------------------------------ status & toast ------------------------------ */
@@ -1258,6 +1290,7 @@
 
   async function openSettings() {
     applyTheme();
+    applyPhotoQualityUI();
     openSheet($('#settingsSheet'));
     updateStorageInfo();
     detectInstallRow();
@@ -1420,6 +1453,10 @@
       btn.addEventListener('click', () => setThemePref(btn.dataset.themePref));
     });
 
+    $$('[data-quality-pref]').forEach((btn) => {
+      btn.addEventListener('click', () => setPhotoQualityPref(btn.dataset.qualityPref));
+    });
+
     $('#exportRow')?.addEventListener('click', exportData);
     $('#importRow')?.addEventListener('click', () => $('#importInput')?.click());
     $('#deleteAllRow')?.addEventListener('click', deleteAllData);
@@ -1471,6 +1508,7 @@
 
   async function init() {
     applyTheme();
+    applyPhotoQualityUI();
     bindEvents();
     try {
       await loadEntries();
